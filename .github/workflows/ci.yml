@@ -20,7 +20,18 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    - name: Compile project
+    # Étapes pour compiler les modules internes
+    - name: Build gpsUtil
+      run: mvn clean install -f JavaPathENProject8-master/gpsUtil/pom.xml
+
+    - name: Build rewardCentral
+      run: mvn clean install -f JavaPathENProject8-master/rewardCentral/pom.xml
+
+    - name: Build tripPricer
+      run: mvn clean install -f JavaPathENProject8-master/tripPricer/pom.xml
+
+    # Compilation du projet TourGuide
+    - name: Compile TourGuide
       run: mvn compile
       working-directory: JavaPathENProject8-master/TourGuide
 
@@ -28,6 +39,6 @@ jobs:
       run: mvn test -Dtest=\!TestPerformance
       working-directory: JavaPathENProject8-master/TourGuide
 
-    - name: Build artifact (.jar)
+    - name: Build TourGuide jar
       run: mvn package -DskipTests
       working-directory: JavaPathENProject8-master/TourGuide
