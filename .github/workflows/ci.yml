@@ -29,9 +29,3 @@ jobs:
 
     - name: Build artifact (.jar)
       run: mvn package -DskipTests
-
-    - name: Upload JAR artifact
-      uses: actions/upload-artifact@v3.1.3
-      with:
-        name: tourguide-jar
-        path: target/*.jar
