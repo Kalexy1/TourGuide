@@ -20,17 +20,6 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    # Étapes pour compiler les modules internes
-    - name: Build gpsUtil
-      run: mvn clean install -f JavaPathENProject8-master/gpsUtil/pom.xml
-
-    - name: Build rewardCentral
-      run: mvn clean install -f JavaPathENProject8-master/rewardCentral/pom.xml
-
-    - name: Build tripPricer
-      run: mvn clean install -f JavaPathENProject8-master/tripPricer/pom.xml
-
-    # Compilation du projet TourGuide
     - name: Compile TourGuide
       run: mvn compile
       working-directory: JavaPathENProject8-master/TourGuide
