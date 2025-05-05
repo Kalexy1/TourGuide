@@ -25,13 +25,13 @@ jobs:
       run: mvn compile
 
     - name: Run unit tests (excluding performance tests)
-      run: mvn test -Dtest=!TestPerformance
+      run: mvn test -Dtest=\!TestPerformance
 
     - name: Build artifact (.jar)
       run: mvn package -DskipTests
 
     - name: Upload JAR artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3.1.3
       with:
         name: tourguide-jar
         path: target/*.jar
