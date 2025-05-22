@@ -20,16 +20,17 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    - name: Install local dependencies (gpsUtil, tripPricer, rewardCentral)
+    - name: Install custom dependencies (local JARs)
       run: |
         mkdir -p ~/.m2/repository/gpsUtil/gpsUtil/1.0.0
-        cp JavaPathENProject8-master/TourGuide/libs/gpsUtil-1.0.0.jar ~/.m2/repository/gpsUtil/gpsUtil/1.0.0/gpsUtil-1.0.0.jar
+        cp JavaPathENProject8-master/TourGuide/libs/gpsUtil.jar ~/.m2/repository/gpsUtil/gpsUtil/1.0.0/gpsUtil-1.0.0.jar
+        echo '<dependency><groupId>gpsUtil</groupId><artifactId>gpsUtil</artifactId><version>1.0.0</version><scope>system</scope><systemPath>${project.basedir}/libs/gpsUtil.jar</systemPath></dependency>' >> debug.xml
 
         mkdir -p ~/.m2/repository/tripPricer/tripPricer/1.0.0
-        cp JavaPathENProject8-master/TourGuide/libs/tripPricer-1.0.0.jar ~/.m2/repository/tripPricer/tripPricer/1.0.0/tripPricer-1.0.0.jar
+        cp JavaPathENProject8-master/TourGuide/libs/TripPricer.jar ~/.m2/repository/tripPricer/tripPricer/1.0.0/tripPricer-1.0.0.jar
 
         mkdir -p ~/.m2/repository/rewardCentral/rewardCentral/1.0.0
-        cp JavaPathENProject8-master/TourGuide/libs/rewardCentral-1.0.0.jar ~/.m2/repository/rewardCentral/rewardCentral/1.0.0/rewardCentral-1.0.0.jar
+        cp JavaPathENProject8-master/TourGuide/libs/RewardCentral.jar ~/.m2/repository/rewardCentral/rewardCentral/1.0.0/rewardCentral-1.0.0.jar
 
     - name: Compile TourGuide
       run: mvn compile
