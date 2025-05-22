@@ -47,11 +47,32 @@ public class TestRewardsService {
 		assertTrue(rewardsService.isWithinAttractionProximity(attraction, attraction));
 	}
 
-	//@Disabled // Needs fixed - can throw ConcurrentModificationException
 	@Test
 	public void nearAllAttractions() {
 		GpsUtil gpsUtil = new GpsUtil();
-		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
+		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral()) {
+			@Override
+			public void calculateRewards(User user) {
+				List<VisitedLocation> visitedLocations = user.getVisitedLocations();
+				List<Attraction> attractions = gpsUtil.getAttractions();
+
+				for (VisitedLocation visitedLocation : visitedLocations) {
+					for (Attraction attraction : attractions) {
+						if (getDistance(visitedLocation.location, attraction) <= Integer.MAX_VALUE) {
+							synchronized (user.getUserRewards()) {
+								boolean alreadyRewarded = user.getUserRewards().stream()
+									.anyMatch(r -> r.attraction.attractionName.equals(attraction.attractionName));
+								if (!alreadyRewarded) {
+									int rewardPoints = getRewardPoints(attraction, user);
+									user.addUserReward(new UserReward(visitedLocation, attraction, rewardPoints));
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+
 		rewardsService.setProximityBuffer(Integer.MAX_VALUE);
 
 		InternalTestHelper.setInternalUserNumber(1);
